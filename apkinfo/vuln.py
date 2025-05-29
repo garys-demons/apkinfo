@@ -6,10 +6,10 @@ from dotenv import load_dotenv
 class Vuln:
     def __init__(self):
         load_dotenv()
-        self.API_KEY = os.getenv("OPENAI_KEY")
-        self.client = OpenAI(
-          api_key=self.API_KEY
-        )
+        # self.API_KEY = os.getenv("OPENAI_KEY")
+        # self.client = OpenAI(
+        #   api_key=self.API_KEY
+        # )
 
     def find_vulnerabilities(self, xml_path):
         

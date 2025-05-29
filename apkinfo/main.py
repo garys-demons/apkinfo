@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 import json
 import argparse
 from dotenv import load_dotenv
@@ -84,13 +85,25 @@ def extract_info(xml, path):
                     else:
                         utils.printText(f' - {activity.attrib[f'{android}name']}')
     print()
-    utils.printTitle('Vulnerabilities')
-    with console.status("Finding Vulnerabilities\n", spinner="dots2"):
-        vulnerabilities = vulnerability.find_vulnerabilities(path)
-        a = 0
-        for vuln in vulnerabilities:
-            utils.printText(f''' {a+1}. Vulnerability :{vuln['name']} \n    - Description : {vuln['description']}''')
-            a += 1
+
+    utils.printTitle('API Keys')
+    pattern = r'AIza[0-9A-Za-z\-_]{20,100}'
+    for child in xml:
+        if child.tag == 'application':
+            for activity in child.iter('meta-data'):
+                api_key = activity.attrib.get(f'{android}value', '')
+                if re.match(pattern,api_key):
+                    utils.printText(f' - Google API key found : {api_key}')
+                
+
+
+    # utils.printTitle('Vulnerabilities')
+    # with console.status("Finding Vulnerabilities\n", spinner="dots2"):
+    #     vulnerabilities = vulnerability.find_vulnerabilities(path)
+    #     a = 0
+    #     for vuln in vulnerabilities:
+    #         utils.printText(f''' {a+1}. Vulnerability :{vuln['name']} \n    - Description : {vuln['description']}''')
+    #         a += 1
 
 
     
